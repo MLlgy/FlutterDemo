@@ -68,6 +68,9 @@ List<Container> _buildGridItem(int count) {
   return new List<Container>.generate(
       count,
       (int index) => new Container(
-            child: new Image.asset('images/lake.jpg'),
+//            child: new Image.asset('images/lake.jpg'),
+            child: new Image.network(
+              'https://github.com/flutter/website/blob/master/_includes/code/layout/lakes/images/lake.jpg?raw=true',
+            ),
           ));
 }
