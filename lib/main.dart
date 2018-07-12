@@ -1,104 +1,66 @@
-// Create an infinite scrolling lazily loaded list
-
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Startup Name Generator',
-      home: new RandomWords(),
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => new RandomWordsState();
-}
-
-//为Randonwords Widget 保存状态
-class RandomWordsState extends State<RandomWords> {
-  final List<WordPair> _suggestions = <WordPair>[];
-  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
-  final Set<WordPair> _saved = new Set<WordPair>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: const Text('Startup Name Generator'),
-        actions: <Widget>[
-          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
+    Widget titleSection = new Container(
+      padding: const EdgeInsets.all(32.0),
+      child: new Row(
+        children: <Widget>[
+          new Expanded(
+              child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: new Text(
+                  "Lake",
+                  style: new TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              new Text(
+                "Kaa",
+                style: new TextStyle(color: Colors.grey[500]),
+              )
+            ],
+          )),
+          new Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          new Container(
+            color: Colors.amber[500],
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: new Text(
+              "41",
+              style: TextStyle(
+                  decorationColor: Colors.amber[500],
+                  fontWeight: FontWeight.w300),
+            ),
+          )
         ],
       ),
-      body: _buildSuggestions(),
     );
-  }
 
-  void _pushSaved() {
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (BuildContext context) {
-          final Iterable<ListTile> tiles = _saved.map((WordPair pair) {
-            return new ListTile(
-              title: new Text(
-                pair.asPascalCase,
-                style: _biggerFont,
-              ),
-            );
-          });
-          final List<Widget> divided =
-          ListTile.divideTiles(tiles: tiles, context: context).toList();
-          return new Scaffold(
-            appBar: new AppBar(
-              title: const Text('saved suggest'),
-            ),
-            body: new ListView(children: divided),
-          );
-        },
+    return MaterialApp(
+      title: "Lake",
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("lake title"),
+        ),
+        body: ListView(
+          children: <Widget>[
+            Image.asset(
+                'images/lake.jpg',
+                width: 600.0,
+                height: 240.0,
+                fit: BoxFit.cover),
+            titleSection
+          ],
+        ),
       ),
-    );
-  }
-
-  //新建 ListView
-  Widget _buildSuggestions() {
-    return new ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (BuildContext _context, int i) {
-          if (i.isOdd) {
-            return const Divider();
-          }
-          final int index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-          return _buildRow(_suggestions[index]);
-        });
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final bool alearlySaved = _saved.contains(pair);
-
-    return new ListTile(
-      title: new Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-      //trailing -- 后面
-      trailing: new Icon(alearlySaved ? Icons.favorite : Icons.favorite_border),
-      onTap: () {
-        setState(() {
-          if (alearlySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
     );
   }
 }
