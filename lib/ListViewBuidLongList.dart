@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = "Build Listview";
     return new MaterialApp(
-      title: title,
       home: new Scaffold(
         appBar: new AppBar(
           title: new Text(title),
